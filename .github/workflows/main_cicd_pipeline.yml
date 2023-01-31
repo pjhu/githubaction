@@ -1,0 +1,23 @@
+name: "main CI/CD Pipeline"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: get branch version
+        run: |
+          echo ${GITHUB_REF##*/}
+          echo "PROVIDED_VERSION=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
+          sed -i "s/^version[ ]*=.*/version = '${PROVIDED_VERSION}'/" pyproject.toml
