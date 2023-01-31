@@ -19,8 +19,11 @@ jobs:
       - name: get branch ref name
         run: |
           echo ${GITHUB_REF}
+      - name: get branch name
+        run: |
+          echo ${GITHUB_REF##*/v}
       - name: Generate version from branch ref name
         run: |
-          echo ${GITHUB_REF_NAME}
-          echo "PROVIDED_VERSION=$(echo ${GITHUB_REF_NAME:1})" >> $GITHUB_ENV
+          echo ${GITHUB_REF}
+          PROVIDED_VERSION=$(echo ${GITHUB_REF##*/v})
           echo $PROVIDED_VERSION
