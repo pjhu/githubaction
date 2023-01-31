@@ -16,11 +16,11 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - name: get github ref
+      - name: get branch ref name
         run: |
           echo ${GITHUB_REF}
-      - name: get release version
+      - name: Generate version from branch ref name
         run: |
-          echo ${GITHUB_REF##*/}
-          echo "PROVIDED_VERSION=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
+          echo ${GITHUB_REF_NAME}
+          echo "PROVIDED_VERSION=$(echo ${GITHUB_REF_NAME:1})" >> $GITHUB_ENV
           echo $PROVIDED_VERSION
